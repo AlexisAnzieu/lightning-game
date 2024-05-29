@@ -39,8 +39,6 @@
 	cellSize={1}
 /> -->
 
-<!-- <Zeus rotation.y={rotation} position={[0, 0, 0]} /> -->
-
 <Text text={'Couteau Fatal'} position={[0.3, 0.5, 0]} />
 
 <Sharp
