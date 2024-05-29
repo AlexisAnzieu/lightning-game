@@ -1,81 +1,62 @@
 <script lang="ts">
-  import { T } from '@threlte/core'
-  import { ContactShadows, Float, Grid, OrbitControls } from '@threlte/extras'
+	import type * as THREE from 'three';
+	import {
+		T,
+		type Props,
+		type Events,
+		type Slots,
+		forwardEventHandlers,
+		useTask
+	} from '@threlte/core';
+	import { Grid, OrbitControls, Text } from '@threlte/extras';
+	import { interactivity, createTransition } from '@threlte/extras';
+	interactivity();
+	import Sharp from './models/sharp.svelte';
+	import Gun from './models/gun.svelte';
+	import type { Material } from 'three';
+
+	let rotation = 0;
+	useTask((delta) => {
+		rotation += delta;
+	});
+
+	let knifeScale = 1;
+	let gunScale = 1;
 </script>
 
-<T.PerspectiveCamera
-  makeDefault
-  position={[-10, 10, 10]}
-  fov={15}
->
-  <OrbitControls
-    autoRotate
-    enableZoom={false}
-    enableDamping
-    autoRotateSpeed={0.5}
-    target.y={1.5}
-  />
+<T.PerspectiveCamera makeDefault position={[0, 0, 10]} fov={15}>
+	<OrbitControls enableDamping />
 </T.PerspectiveCamera>
 
-<T.DirectionalLight
-  intensity={0.8}
-  position.x={5}
-  position.y={10}
-/>
-<T.AmbientLight intensity={0.2} />
-
+<T.DirectionalLight intensity={10} position={[9, 10, 100]} />
+<T.AmbientLight intensity={2} />
+<!-- 
 <Grid
-  position.y={-0.001}
-  cellColor="#ffffff"
-  sectionColor="#ffffff"
-  sectionThickness={0}
-  fadeDistance={25}
-  cellSize={2}
+	cellColor="#ffffff"
+	sectionColor="#ffffff"
+	sectionThickness={0}
+	fadeDistance={25}
+	cellSize={1}
+/> -->
+
+<!-- <Zeus rotation.y={rotation} position={[0, 0, 0]} /> -->
+
+<Text text={'Couteau Fatal'} position={[0.3, 0.5, 0]} />
+
+<Sharp
+	on:pointerenter={() => (knifeScale = 2)}
+	on:pointerout={() => (knifeScale = 1)}
+	rotation.y={rotation}
+	position={[0.7, 0, 0]}
+	scale={knifeScale}
+></Sharp>
+
+<Text text={'Pistolet Zombie'} position={[-0.8, 0.5, 0]} />
+
+<Gun
+	on:pointerenter={() => (gunScale = 2)}
+	on:pointerout={() => (gunScale = 1)}
+	rotation.y={rotation}
+	position={[-0.5, 0, 0]}
+	scale={gunScale}
 />
-
-<ContactShadows
-  scale={10}
-  blur={2}
-  far={2.5}
-  opacity={0.5}
-/>
-
-<Float
-  floatIntensity={1}
-  floatingRange={[0, 1]}
->
-  <T.Mesh
-    position.y={1.2}
-    position.z={-0.75}
-  >
-    <T.BoxGeometry />
-    <T.MeshStandardMaterial color="#0059BA" />
-  </T.Mesh>
-</Float>
-
-<Float
-  floatIntensity={1}
-  floatingRange={[0, 1]}
->
-  <T.Mesh
-    position={[1.2, 1.5, 0.75]}
-    rotation.x={5}
-    rotation.y={71}
-  >
-    <T.TorusKnotGeometry args={[0.5, 0.15, 100, 12, 2, 3]} />
-    <T.MeshStandardMaterial color="#F85122" />
-  </T.Mesh>
-</Float>
-
-<Float
-  floatIntensity={1}
-  floatingRange={[0, 1]}
->
-  <T.Mesh
-    position={[-1.4, 1.5, 0.75]}
-    rotation={[-5, 128, 10]}
-  >
-    <T.IcosahedronGeometry />
-    <T.MeshStandardMaterial color="#F8EBCE" />
-  </T.Mesh>
-</Float>
