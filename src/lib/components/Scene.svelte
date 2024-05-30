@@ -13,7 +13,8 @@
 	interactivity();
 	import Sharp from './models/sharp.svelte';
 	import Gun from './models/gun.svelte';
-	import type { Material } from 'three';
+	import Gun2 from './models/gun_2.svelte';
+	import Knife_2 from './models/knife_2.svelte';
 
 	let rotation = 0;
 	useTask((delta) => {
@@ -49,6 +50,14 @@
 	scale={knifeScale}
 ></Sharp>
 
+<Knife_2
+	on:pointerenter={() => (knifeScale = 2)}
+	on:pointerout={() => (knifeScale = 1)}
+	rotation.y={rotation}
+	position={[0.7, -1, 0]}
+	scale={knifeScale}
+></Knife_2>
+
 <Text text={'Pistolet Zombie'} position={[-0.8, 0.5, 0]} />
 
 <Gun
@@ -57,4 +66,12 @@
 	rotation.y={rotation}
 	position={[-0.5, 0, 0]}
 	scale={gunScale}
+/>
+
+<Gun2
+	on:pointerenter={() => (gunScale = 2)}
+	on:pointerout={() => (gunScale = 1)}
+	rotation.y={rotation}
+	position={[-0.5, -1, 0]}
+	scale={0.5}
 />
